@@ -1,0 +1,101 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'realm-android'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "io.realm:realm-gradle-plugin:2.2.2"
+    }
+}
+
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.1"
+    defaultConfig {
+        applicationId "com.bma.codingchallange"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        androidTest.java.srcDirs = ['src/androidTest/java', 'src/sharedTest/java']
+        test.java.srcDirs = ['src/test/java', 'src/sharedTest/java']
+    }
+
+    buildTypes {
+        debug
+        release
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'LICENSE.txt'
+    }
+}
+
+
+configurations.all {
+    resolutionStrategy.force deps.supportannotations
+}
+
+dependencies {
+    compile deps.appcompat
+
+    compile deps.design
+    compile deps.recyclerview
+    compile deps.eventbus
+    compile deps.converter_jackson
+    compile deps.retrofit
+    compile deps.okhttp
+    compile deps.caligraphy
+    compile deps.glide
+
+    // RxJava
+    compile deps.rxjava
+    compile deps.rxandroid
+
+    // ButterKnife
+    compile deps.butterknife
+    annotationProcessor deps.butterknifecompiler
+
+    // Dagger
+    compile deps.dagger
+    annotationProcessor deps.daggercompiler
+    androidTestAnnotationProcessor deps.daggercompiler
+
+    // AutoValue / PaperParcel
+    provided deps.autovalue
+    annotationProcessor deps.autovalue
+    compile deps.paperparcel
+    annotationProcessor deps.paperparcelcompiler
+
+    // Unit
+    testCompile deps.junit
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+}

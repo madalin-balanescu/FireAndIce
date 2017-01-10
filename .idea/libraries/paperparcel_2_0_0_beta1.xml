@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="paperparcel-2.0.0-beta1">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/nz.bradcampbell/paperparcel/2.0.0-beta1/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/nz.bradcampbell/paperparcel/2.0.0-beta1/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/nz.bradcampbell/paperparcel/2.0.0-beta1/49f9f39256325b9b5ae8683e5ed477d42859b8e0/paperparcel-2.0.0-beta1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

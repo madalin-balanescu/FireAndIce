@@ -1,0 +1,22 @@
+# Android Studio generated
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+
+# GitHub generated
+*.apk
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+*.log
+
+# Intellicore additions
+.idea/
+*.iml
+.idea/gradle.xml

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">LivePlayCodingChallange</string>
+    <string name="book_string">Book</string>
+    <string name="empty_title">Empty title</string>
+</resources>
