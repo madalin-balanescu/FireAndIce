@@ -1,5 +1,6 @@
 package com.bma.codingchallange.ui.adapters;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -44,40 +45,7 @@ public class BookAdapter<T extends Object> extends RecyclerView.Adapter<Recycler
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-
-        if (mListBooks.get(position) instanceof Book) {
-
-            Book item = (Book) mListBooks.get(position);
-
-            if (!TextUtils.isEmpty(item.getName())) {
-                ((ViewHolder) holder).tvBookTitle.setText(item.getName());
-            }
-
-
-            ((ViewHolder) holder).tvBookNr.setText(mViewGroup.getContext().getString(R.string.book_string) + " " + position);
-
-            ((ViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    if (mActivity != null && mActivity instanceof MainActivity) {
-                        ((MainActivity) mActivity).fragmentManager.displayCharacters(item.getName());
-                    }
-
-                }
-            });
-        } else if (mListBooks.get(position) instanceof Characters) {
-            Characters item = (Characters) mListBooks.get(position);
-
-            if (item.getTitles() != null && item.getTitles().size() > 0 && !TextUtils.isEmpty(item.getTitles().get(0).getTitle())) {
-                ((ViewHolder) holder).tvBookTitle.setText(item.getTitles().get(0).getTitle());
-            } else if (!TextUtils.isEmpty(item.getUrl())) {
-                ((ViewHolder) holder).tvBookTitle.setText(item.getUrl());
-            }
-
-            ((ViewHolder) holder).tvBookNr.setVisibility(View.GONE);
-        }
-
+        ((ViewHolder) holder).bind(mListBooks.get(position));
     }
 
     @Override
@@ -89,16 +57,54 @@ public class BookAdapter<T extends Object> extends RecyclerView.Adapter<Recycler
         }
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.tvBookTitle)
         TextView tvBookTitle;
         @BindView(R.id.tvBookNr)
         TextView tvBookNr;
 
+
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            view.setOnClickListener(this);
+        }
+
+        public void bind(@NonNull T mListBooks) {
+            if (mListBooks instanceof Book) {
+
+                Book item = (Book) mListBooks;
+
+                if (!TextUtils.isEmpty(item.getName())) {
+                    tvBookTitle.setText(item.getName());
+                }
+
+
+                tvBookNr.setText(mViewGroup.getContext().getString(R.string.book_string) + " " + getAdapterPosition());
+
+            } else if (mListBooks instanceof Characters) {
+                Characters item = (Characters) mListBooks;
+
+                if (item.getTitles() != null && item.getTitles().size() > 0 && !TextUtils.isEmpty(item.getTitles().get(0).getTitle())) {
+                    tvBookTitle.setText(item.getTitles().get(0).getTitle());
+                } else if (!TextUtils.isEmpty(item.getUrl())) {
+                    tvBookTitle.setText(item.getUrl());
+                }
+
+                tvBookNr.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (mListBooks.get(getAdapterPosition()) instanceof Book) {
+                Book item = (Book) mListBooks.get(getAdapterPosition());
+
+                if (mActivity != null && mActivity instanceof MainActivity) {
+                    ((MainActivity) mActivity).fragmentManager.displayCharacters(item.getName());
+                }
+            }
         }
     }
 }
