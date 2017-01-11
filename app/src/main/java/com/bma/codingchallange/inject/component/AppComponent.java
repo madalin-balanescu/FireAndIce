@@ -5,6 +5,7 @@ import com.bma.codingchallange.inject.module.AppModule;
 import com.bma.codingchallange.inject.module.NetModule;
 import com.bma.codingchallange.manager.LPFragmentManager;
 import com.bma.codingchallange.network.LPNetworkManager;
+import com.bma.codingchallange.presenter.MainPresenter;
 import com.bma.codingchallange.ui.activities.MainActivity;
 
 import javax.inject.Singleton;
@@ -21,6 +22,7 @@ public interface AppComponent {
 
     MainActivity inject(MainActivity mainActivity);
 
+    MainPresenter inject(MainPresenter mainPresenter);
 
 
     LPNetworkManager inject(LPNetworkManager networkManager);

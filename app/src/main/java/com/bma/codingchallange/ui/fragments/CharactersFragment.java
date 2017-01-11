@@ -53,7 +53,7 @@ public class CharactersFragment extends Fragment {
 
     private int sequenceSize = 10;
 
-    private List<Characters> currentCharactersElements;
+    public List<Characters> currentCharactersElements;
 
     private boolean isLastElement = false;
 
@@ -80,6 +80,31 @@ public class CharactersFragment extends Fragment {
         mainActivity = (MainActivity) getActivity();
 
         setUI();
+    }
+
+    public void notifyAdapter(){
+        rvCharacters.getAdapter().notifyDataSetChanged();
+    }
+
+    public void updateTheTitles(List<Characters> listOfCharacters){
+
+        for (Characters character : listOfCharacters) {
+            for (Characters item : currentCharactersElements) {
+                if (item.getUrl().equals(character.getUrl())) {
+
+                    if (character.getTitles() != null && character.getTitles().size() > 0) {
+                        item.setTitles(character.getTitles());
+                    } else {
+                        RealmList<TitlesObject> emptyList = new RealmList<TitlesObject>();
+                        emptyList.add(new TitlesObject(getString(R.string.empty_title)));
+                        item.setTitles(emptyList);
+                    }
+                }
+
+            }
+        }
+
+        mainActivity.realmHelper.saveList(currentCharactersElements);
     }
 
     private void setUI() {
@@ -130,7 +155,7 @@ public class CharactersFragment extends Fragment {
 
             index = index + sequenceSize;
 
-            getTitleForCharacters(apiCalls);
+            mainActivity.mainPresenter.getTitleForCharacters(apiCalls);
         }
 
 
@@ -158,60 +183,7 @@ public class CharactersFragment extends Fragment {
 
     }
 
-    @SuppressWarnings("unchecked")
-    private void getTitleForCharacters(List<Observable<Characters>> apiCalls) {
-        Observable.zip(
-                apiCalls, args -> {
 
-                    List<Characters> aux = new ArrayList<Characters>();
-
-                    if (args != null && args.length > 0) {
-
-                        for (Object item : args) {
-                            if (item != null && item instanceof Characters) {
-                                aux.add((Characters) item);
-                            }
-                        }
-                    }
-
-                    return aux;
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Characters>>() {
-                    @Override
-                    public void onCompleted() {
-                        rvCharacters.getAdapter().notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(List<Characters> listOfCharacters) {
-
-                        for (Characters character : listOfCharacters) {
-                            for (Characters item : currentCharactersElements) {
-                                if (item.getUrl().equals(character.getUrl())) {
-
-                                    if (character.getTitles() != null && character.getTitles().size() > 0) {
-                                        item.setTitles(character.getTitles());
-                                    } else {
-                                        RealmList<TitlesObject> emptyList = new RealmList<TitlesObject>();
-                                        emptyList.add(new TitlesObject(getString(R.string.empty_title)));
-                                        item.setTitles(emptyList);
-                                    }
-                                }
-
-                            }
-                        }
-
-                        mainActivity.realmHelper.saveList(currentCharactersElements);
-
-                    }
-                });
-
-    }
 
 
 }

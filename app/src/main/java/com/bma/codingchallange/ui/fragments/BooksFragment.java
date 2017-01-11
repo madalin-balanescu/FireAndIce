@@ -67,38 +67,15 @@ public class BooksFragment extends Fragment {
         }
 
         if (ConnectionCheck.isConnectionAvailable(getActivity())) {
-            getBooks();
+            mainActivity.mainPresenter.getBooks();
         }
 
     }
 
 
-    private void getBooks() {
-        mainActivity.networkManager.getBooks().subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Book>>() {
-                    @Override
-                    public void onCompleted() {
-                        LPLog.i(LPLog.LPLogTAG, "Complete Books");
 
-                        setAdapter(mainActivity.realmHelper.getBooks());
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        LPLog.e(LPLog.LPLogTAG, "Error on the Books");
-                    }
-
-                    @Override
-                    public void onNext(List<Book> books) {
-                        if (books != null && books.size() > 0) {
-                            mainActivity.realmHelper.saveList(books);
-                        }
-                    }
-                });
-    }
-
-    private void setAdapter(List<Book> books) {
+    public void setAdapter(List<Book> books) {
 
         StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(rowNumber,
                 StaggeredGridLayoutManager.VERTICAL);

@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.bma.codingchallange.database.RealmHelper;
 import com.bma.codingchallange.manager.LPFragmentManager;
+import com.bma.codingchallange.presenter.MainPresenter;
+import com.bma.codingchallange.ui.activities.MainActivity;
 
 import javax.inject.Singleton;
 
@@ -41,6 +43,12 @@ public class AppModule {
     @Singleton
     public LPFragmentManager provideFragmentManager() {
         return new LPFragmentManager();
+    }
+
+    @Provides
+    @Singleton
+    public MainPresenter provideMainPresenter(){
+        return new MainPresenter();
     }
 
 

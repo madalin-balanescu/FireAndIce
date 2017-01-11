@@ -10,6 +10,7 @@ import com.bma.codingchallange.log.LPLog;
 import com.bma.codingchallange.manager.LPFragmentManager;
 import com.bma.codingchallange.model.Book;
 import com.bma.codingchallange.network.LPNetworkManager;
+import com.bma.codingchallange.presenter.MainPresenter;
 
 import java.util.List;
 
@@ -24,9 +25,11 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     public RealmHelper realmHelper;
     @Inject
-    public LPNetworkManager networkManager;
-    @Inject
     public LPFragmentManager fragmentManager;
+    @Inject
+    public MainPresenter mainPresenter;
+    @Inject
+    public LPNetworkManager networkManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
